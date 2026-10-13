@@ -1,6 +1,6 @@
 Package: de.mesh.security
 Name: Mesh Security
-Version: 0.6.2
+Version: 0.6.3
 Architecture: iphoneos-arm
 Description: Shield for jailbroken iPods: random password instead of alpine, all incoming ports closed, only the apps you allow go online, every connection logged.
 Maintainer: Second Track
