@@ -1,0 +1,9 @@
+.theos/
+packages/
+obj/
+*.deb
+*.dSYM/
+.DS_Store
+backup*/
+.spotify-*
+*.log

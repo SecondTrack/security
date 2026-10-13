@@ -1,0 +1,6 @@
+#!/bin/sh
+# Beim Entfernen: alles zurück (Ports, Passwort, Notschalter, Protokoll), damit der iPod nie
+# abgeschirmt oder mit fremdem Passwort zurückbleibt. Bei Updates bleibt der Zustand.
+H=/Applications/MeshSecurity.app/msguard
+case "$1" in remove|purge) [ -x "$H" ] && "$H" uninstall ;; esac
+exit 0

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- pf vergisst seine Regeln beim Neustart. Dieser Dienst lädt die Abschirmung einmal nach dem Start
+     wieder (msguard boot, als root); eine unbestätigte Probezeit wird dabei zurückgenommen. -->
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>de.mesh.security.boot</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Applications/MeshSecurity.app/msguard</string>
+		<string>boot</string>
+	</array>
+	<key>UserName</key>
+	<string>root</string>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>StandardOutPath</key>
+	<string>/dev/null</string>
+	<key>StandardErrorPath</key>
+	<string>/dev/null</string>
+</dict>
+</plist>

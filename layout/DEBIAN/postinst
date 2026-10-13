@@ -1,0 +1,8 @@
+#!/bin/sh
+# msguard braucht root (setuid), nimmt aber nur Befehle der App Mesh Security an (helper/msguard.c).
+H=/Applications/MeshSecurity.app/msguard
+chown root:wheel "$H"
+chmod 4755 "$H"
+chown root:wheel /Library/LaunchDaemons/de.mesh.security.boot.plist
+chmod 644 /Library/LaunchDaemons/de.mesh.security.boot.plist
+exit 0
