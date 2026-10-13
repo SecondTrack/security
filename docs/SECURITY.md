@@ -24,8 +24,8 @@ es so weit kommt. Es ist kein Schutz danach. So steht es auch in der App, nicht 
   höchstens 16. Regeln aus fester Vorlage, Ausnahmen nur aus dem eigenen WLAN (`en0:network`).
 - **Programme:** `pfctl` per `posix_spawn` mit argv und fester Umgebung, nie über eine Shell.
 - **Zustand:** `/var/root/.mesh-security/` (0700 root, kein Symlink). Dateien atomar (tmp, fsync, rename).
-- **Nie aussperren:** Abschirmen gilt erst nach „Behalten“; sonst nimmt ein abgekoppelter Wächter es nach
-  `MG_TRIAL_SECS` zurück. Eine nach einem Neustart noch offene Probezeit gilt als nicht bestätigt.
+- **Nie aussperren:** Ausschalten geht immer auf dem Gerät selbst (ein Schalter, keine Probezeit, so
+  gewollt); SSH aus dem eigenen WLAN lässt sich per Ausnahme offen halten.
 - **Fremde Firewall:** ist pf schon aktiv, fasst msguard nichts an (`MG_ERR_FOREIGN`).
 
 ## Passwort
@@ -48,9 +48,10 @@ Sehr kurze Verbindungen zwischen zwei Abfragen können fehlen. Das Protokoll ver
 
 ## Grenzen
 
-- Eingehend wird alles gesperrt. Ausgehend lässt sich nach Ziel (Adresse/Port) sperren, nicht nach App:
-  alle Apps und Mesh-Tor laufen als mobile. pf versteht `user` in Regeln (am Gerät geprüft); für „nur
-  Mesh über Tor“ bräuchte Tor einen eigenen Nutzer. Sperren je App ginge nur mit Substrate.
+- Eingehend wird alles gesperrt. Ausgehend kennt pf keine Apps (alle laufen als mobile). Deshalb lernt
+  msguard: öffnet eine erlaubte App eine Verbindung, wird deren Ziel freigegeben (TCP wiederholt den
+  Aufbau nach ~1 s); alles andere bleibt gesperrt. Folge: eine gesperrte App erreicht ein Ziel, das eine
+  erlaubte App gerade freigegeben hat; sehr kurze UDP-Verbindungen können verloren gehen.
 - Wer schon root hat, kann alles davon ändern.
 
 ## Angriffstests

@@ -3,6 +3,7 @@
 #import "MeshScreen.h"
 #import "MeshPageHeader.h"
 #import "MeshControls.h"
+#import "MeshToggle.h"
 #import "MeshPopup.h"
 #import "MeshTheme.h"
 #import "MeshGuard.h"
@@ -16,7 +17,7 @@ static const CGFloat kMargin = 14, kCardHeight = 64;
 @end
 
 @implementation TrafficViewController {
-    UISwitch *_logSwitch;
+    MeshToggle *_logSwitch;
     UITableView *_table;
     UILabel *_empty;
     NSArray *_connections;
@@ -30,7 +31,7 @@ static const CGFloat kMargin = 14, kCardHeight = 64;
     UIView *card = [MeshControls switchCardWithFrame:CGRectMake(kMargin, top + 12, W - 2 * kMargin, kCardHeight) title:L(@"Write down connections")
                                             subtitle:L(@"In and out, stays on this iPod") on:[MeshGuard shared].status.logging
                                               target:self action:@selector(logSwitched:)];
-    for (UIView *v in card.subviews) if ([v isKindOfClass:[UISwitch class]]) _logSwitch = (UISwitch *)v;
+    for (UIView *v in card.subviews) if ([v isKindOfClass:[MeshToggle class]]) _logSwitch = (MeshToggle *)v;
     [self.view addSubview:card];
 
     CGFloat tableTop = top + 12 + kCardHeight + 10;
@@ -76,7 +77,7 @@ static const CGFloat kMargin = 14, kCardHeight = 64;
     }];
 }
 
-- (void)logSwitched:(UISwitch *)sw {
+- (void)logSwitched:(MeshToggle *)sw {
     [[MeshGuard shared] setLogging:sw.on completion:^(MeshGuardResult r) {
         if (r != MeshGuardResultOK) [MeshPopup info:[MeshGuard describe:r]];
         [self reload];

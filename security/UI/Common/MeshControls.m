@@ -1,4 +1,5 @@
 #import "MeshControls.h"
+#import "MeshToggle.h"
 #import "MeshTheme.h"
 
 @implementation MeshControls
@@ -66,7 +67,7 @@
 + (UIView *)switchCardWithFrame:(CGRect)frame title:(NSString *)title subtitle:(NSString *)subtitle
                              on:(BOOL)on target:(id)target action:(SEL)action {
     UIView *card = [self cardWithFrame:frame];
-    UISwitch *sw = [[UISwitch alloc] init];
+    MeshToggle *sw = [[MeshToggle alloc] init];
     CGFloat textWidth = frame.size.width - sw.bounds.size.width - 40;
     UILabel *t = [self labelWithFrame:CGRectMake(14, 12, textWidth, 20) font:[MeshTheme bodyFont] color:[MeshTheme ink]];
     t.text = title;
@@ -75,7 +76,6 @@
     s.text = subtitle;
     [card addSubview:s];
     sw.center = CGPointMake(frame.size.width - 14 - sw.bounds.size.width / 2, frame.size.height / 2);
-    sw.onTintColor = [MeshTheme accent];
     sw.on = on;
     [sw addTarget:target action:action forControlEvents:UIControlEventValueChanged];
     [card addSubview:sw];

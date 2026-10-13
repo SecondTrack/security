@@ -22,10 +22,8 @@ Der SSH-Schlüssel des Macs bleibt auch mit neuem Passwort gültig.
 |---------|----------|
 | `msguard status` aus SSH-Shell als mobile / als root | Exit 2 (abgelehnt) |
 | Abschirmen an | Passwort angezeigt; `pfctl -s rules` zeigt Vorlage; SSH von außen zu |
-| Probezeit ablaufen lassen | nach 2 min pf aus, `alpine` wieder gültig |
-| Behalten, dann Ausnahme SSH | SSH aus dem WLAN geht, mit neuem Passwort |
+| Ausnahme SSH | SSH aus dem WLAN geht, mit neuem Passwort |
 | Neustart abgeschirmt | Regeln wieder geladen (Boot-Dienst) |
-| Neustart in Probezeit | zurückgenommen |
 | Abschirmen aus | pf aus, Hash in master.passwd und passwd wieder `alpine` |
 | Verbindungen an, Safari öffnen | MobileSafari mit Ziel :443 im Protokoll |
 | Notschalter | nichts geht raus oder rein; Wieder verbinden stellt vorherigen Zustand her |

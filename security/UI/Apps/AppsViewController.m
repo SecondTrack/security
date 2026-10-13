@@ -111,7 +111,7 @@ static const CGFloat kMargin = 16;
     return cell;
 }
 
-- (void)switched:(UISwitch *)sw {
+- (void)switched:(MeshToggle *)sw {
     NSArray *rows = [self rowsIn:sw.tag / 100000];
     NSUInteger row = (NSUInteger)(sw.tag % 100000);
     if (row >= rows.count) return;

@@ -46,13 +46,12 @@ Support      MeshL10n, MeshLog, MeshNotifications
 Eine Seite. Der große Schild-Schalter schirmt ab bzw. nimmt alles zurück:
 
 - **an:** Konten mit `alpine` bekommen ein erzeugtes Passwort (angezeigt), eingehend geht alles zu
-  (pf), 2 Minuten Probezeit, dann „Behalten“. Ohne Bestätigung nimmt ein Wächter alles zurück.
+  (pf), ausgehend nur erlaubte Apps (Mesh mit Tor ist vorab erlaubt). Keine Probezeit, keine Rückfrage.
 - **aus:** pf wie vorher, Passwort wieder wie vorher (auch `alpine`, so gewollt).
 - **Ausnahmen:** Ports, die aus dem eigenen WLAN erreichbar bleiben (SSH, FileTransfer, eigener Port).
 - **Mehr:** Verbindungen pro App mitschreiben, Notschalter (trennt alles), Alles zurücksetzen.
 
-Ein LaunchDaemon (`de.mesh.security.boot`) lädt die Regeln nach einem Neustart neu; eine
-unbestätigte Probezeit wird dabei zurückgenommen.
+Ein LaunchDaemon (`de.mesh.security.boot`) lädt die Regeln nach einem Neustart neu.
 
 ## Konventionen
 
