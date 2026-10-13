@@ -31,7 +31,7 @@
     "Zeigt jede Verbindung pro App",
     "Notschalter und Zurücksetzen mit einem Tipp"
   ],
-  "version": "0.6.1",
+  "version": "0.6.2",
   "package": "de.mesh.security",
   "bundle": "de.mesh.security",
   "repo": "SecondTrack/security"
