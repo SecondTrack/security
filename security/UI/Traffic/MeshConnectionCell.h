@@ -5,5 +5,5 @@
 
 @interface MeshConnectionCell : UITableViewCell
 + (CGFloat)height;
-- (void)showConnection:(MeshConnection *)connection blocked:(BOOL)blocked;   // blocked: Ziel steht auf der Sperrliste
+- (void)showConnection:(MeshConnection *)connection name:(NSString *)name blocked:(BOOL)blocked;   // name: App-Name, nil = Prozessname   // blocked: Ziel steht auf der Sperrliste
 @end

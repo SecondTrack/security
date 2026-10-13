@@ -89,3 +89,7 @@
 "Undo the shield?" = "Abschirmung aufheben?";
 "Write down connections" = "Verbindungen mitschreiben";
 "Your password stays as it is" = "Dein Passwort bleibt, wie es ist";
+"Mesh (Tor)" = "Mesh (Tor)";
+"Apple Push" = "Apple-Push";
+"Location Services" = "Ortungsdienste";
+"Name lookup (DNS)" = "Namensauflösung (DNS)";

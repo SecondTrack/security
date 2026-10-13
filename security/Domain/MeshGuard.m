@@ -106,6 +106,28 @@ static MeshGuardResult resultForCode(int code) {
     });
 }
 
+// Der Kern meldet den Programmnamen (z.B. "Shop"), Nutzer kennen die App aber unter ihrem Namen
+// ("Reboot"). Einmal je Start aus den Bundles gelesen; dazu Systemdienste, die selbst ins Netz gehen.
+- (void)loadAppNames:(void (^)(NSDictionary *))done {
+    static NSDictionary *cache;
+    if (cache) { done(cache); return; }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSMutableDictionary *names = [@{
+            @"mesh-tor": L(@"Mesh (Tor)"), @"sshd": @"SSH", @"dropbear": @"SSH",
+            @"apsd": L(@"Apple Push"), @"itunesstored": @"iTunes Store", @"locationd": L(@"Location Services"),
+            @"mDNSResponder": L(@"Name lookup (DNS)"), @"syncdefaultsd": @"iCloud",
+        } mutableCopy];
+        for (MeshInstalledApp *a in [MeshInstalledApps scan]) {
+            if (!a.executable.length || !a.name.length) continue;
+            names[a.executable] = a.name;
+            if (a.executable.length > 16) names[[a.executable substringToIndex:16]] = a.name;   // p_comm: höchstens 16 Zeichen
+            if (a.executable.length > 15) names[[a.executable substringToIndex:15]] = a.name;
+        }
+        NSDictionary *done2 = [names copy];
+        dispatch_async(dispatch_get_main_queue(), ^{ cache = done2; done(done2); });
+    });
+}
+
 - (void)loadPassword:(void (^)(NSString *))done {
     dispatch_async(_queue, ^{
         MeshHelperResult *r = [MeshHelper run:@[ @MG_CMD_PASSWORD ] input:nil];

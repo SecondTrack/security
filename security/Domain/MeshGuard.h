@@ -43,6 +43,7 @@ typedef void (^MeshGuardDone)(MeshGuardResult result);
 // Verbindungen pro App mitschreiben und laden (MeshConnection, neueste zuerst).
 - (void)setLogging:(BOOL)on completion:(MeshGuardDone)done;
 - (void)loadConnections:(void (^)(NSArray *connections))done;
+- (void)loadAppNames:(void (^)(NSDictionary *names))done;   // Prozessname -> Name auf dem Home-Bildschirm (Apps und bekannte Dienste)
 // Ursprungszustand: alles zurück, Ausnahmen und Protokoll gelöscht.
 - (void)resetAll:(MeshGuardDone)done;
 

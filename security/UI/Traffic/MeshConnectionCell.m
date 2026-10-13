@@ -35,12 +35,12 @@ static const CGFloat kRowHeight = 58, kTextX = 52;
     return self;
 }
 
-- (void)showConnection:(MeshConnection *)c blocked:(BOOL)blocked {
+- (void)showConnection:(MeshConnection *)c name:(NSString *)name blocked:(BOOL)blocked {
     static NSDateFormatter *fmt;
     if (!fmt) { fmt = [[NSDateFormatter alloc] init]; fmt.dateFormat = @"HH:mm:ss"; }
     UIColor *color = blocked ? [MeshTheme danger] : c.incoming ? [MeshTheme accent] : [MeshTheme muted];
     _dir.image = [MeshGlyphs icon:(c.incoming ? @"back" : @"forward") color:color size:22];
-    _title.text = [NSString stringWithFormat:@"%@ → %@", c.process, c.incoming ? c.local : c.remote];
+    _title.text = [NSString stringWithFormat:@"%@ → %@", name.length ? name : c.process, c.incoming ? c.local : c.remote];
     _meta.text = [NSString stringWithFormat:@"%@  %@  %@", [fmt stringFromDate:c.time], c.incoming ? L(@"in") : L(@"out"), c.proto];
     _verdict.text = blocked ? L(@"BLOCKED") : nil;
     _verdict.textColor = color;

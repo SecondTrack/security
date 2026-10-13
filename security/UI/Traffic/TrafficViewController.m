@@ -21,6 +21,7 @@ static const CGFloat kMargin = 14, kCardHeight = 64;
     UITableView *_table;
     UILabel *_empty;
     NSArray *_connections;
+    NSDictionary *_names;   // Prozessname -> App-Name
 }
 
 - (void)loadView {
@@ -69,6 +70,7 @@ static const CGFloat kMargin = 14, kCardHeight = 64;
 }
 
 - (void)reload {
+    if (!_names) [[MeshGuard shared] loadAppNames:^(NSDictionary *names) { self->_names = names; [self->_table reloadData]; }];
     [[MeshGuard shared] loadConnections:^(NSArray *list) {
         self->_connections = list;
         self->_empty.text = list.count ? nil
@@ -90,7 +92,7 @@ static const CGFloat kMargin = 14, kCardHeight = 64;
     MeshConnectionCell *cell = [tv dequeueReusableCellWithIdentifier:@"c"];
     if (!cell) cell = [[MeshConnectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"c"];
     MeshConnection *c = _connections[(NSUInteger)ip.row];
-    [cell showConnection:c blocked:(c.blocked || [[MeshGuard shared].status.blockedHosts containsObject:[c remoteHost]])];
+    [cell showConnection:c name:_names[c.process] blocked:(c.blocked || [[MeshGuard shared].status.blockedHosts containsObject:[c remoteHost]])];
     return cell;
 }
 
