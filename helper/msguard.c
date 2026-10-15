@@ -68,6 +68,29 @@ static char *cleanEnv[] = { "PATH=/usr/sbin:/usr/bin:/sbin:/bin", "HOME=/var/roo
 
 /* ---------- Aufrufer ---------- */
 
+/* Einzige erlaubte DYLD_-Variable: DYLD_INSERT_LIBRARIES, wenn darin nur Cydia Substrate steht (so lädt
+ * Substrate sich unter iOS 5/6 in jede App). Jede Bibliothek muss aufgelöst unter
+ * /Library/Frameworks/CydiaSubstrate.framework/ oder /Library/MobileSubstrate/ liegen, root gehören und
+ * für niemand anderen beschreibbar sein. Alles andere (eigene Bibliotheken, DYLD_LIBRARY_PATH …) bleibt verboten. */
+static int hasPrefixStr(const char *s, const char *p) { return strncmp(s, p, strlen(p)) == 0; }
+static int trustedDyld(const char *kv) {
+    const char *key = "DYLD_INSERT_LIBRARIES=";
+    if (!hasPrefixStr(kv, key)) return 0;
+    const char *val = kv + strlen(key);
+    char list[1024];
+    size_t n = strlen(val);
+    if (n == 0 || n >= sizeof list) return 0;
+    memcpy(list, val, n + 1);
+    char *save = NULL;
+    for (char *p = strtok_r(list, ":", &save); p; p = strtok_r(NULL, ":", &save)) {
+        char real[PATH_MAX]; struct stat st;
+        if (!realpath(p, real)) return 0;
+        if (!hasPrefixStr(real, "/Library/Frameworks/CydiaSubstrate.framework/") && !hasPrefixStr(real, "/Library/MobileSubstrate/")) return 0;
+        if (lstat(real, &st) != 0 || !S_ISREG(st.st_mode) || st.st_uid != 0 || (st.st_mode & 022)) return 0;
+    }
+    return 1;
+}
+
 static int noDyldVars(pid_t pid) {
     int argmax = 0; size_t sz = sizeof argmax;
     int mib[2] = { CTL_KERN, KERN_ARGMAX };
@@ -79,7 +102,7 @@ static int noDyldVars(pid_t pid) {
     int ok = sysctl(mpa, 3, buf, &sz, NULL, 0) == 0;
     for (size_t i = sizeof(int); ok && i < sz; ) {
         size_t n = strnlen(buf + i, sz - i);
-        if (n >= 5 && strncmp(buf + i, "DYLD_", 5) == 0) ok = 0;
+        if (n >= 5 && strncmp(buf + i, "DYLD_", 5) == 0 && !trustedDyld(buf + i)) ok = 0;
         i += n + 1;
     }
     free(buf);
